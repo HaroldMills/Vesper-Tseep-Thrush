@@ -2,13 +2,11 @@
 
 This repository contains materials documenting the development of new versions of the [Old Bird Tseep and Thrush](http://oldbird.org/analysis.htm) nocturnal flight call detectors for the [Vesper](https://github.com/HaroldMills/Vesper) project.
 
-The Old Bird Tseep and Thrush detectors were created in the late 1990s, and suffer from the following limitations:
+The Tseep and Thrush detectors were created in the late 1990s by Steve Mitchell and Bill Evans for Old Bird, Inc. They have several limitations that will be overcome by the new detectors:
 
 1. They run only on single-channel input sampled at 22050 hertz.
 2. They run only on Windows computers.
 3. They cannot run on more than one input file on the same computer at the same time.
-
-The new detectors overcome all of these limitations.
 
 Furthermore, the old detectors were implemented using [Simulink](https://www.mathworks.com/products/simulink/) and the Real-Time Workshop (now [Simulink Coder](https://www.mathworks.com/products/simulink-coder/)), which are prohibitively expensive for many developers. The new detectors are implemented in Python, which is free, thus eliminating the price barrier for developers who might want to improve the new detectors or adapt them for new applications.
 
@@ -22,3 +20,5 @@ This repository contains the Old Bird Tseep and Thrush detectors, as well as the
 * `Old Bird Detector Filter Comparison.ipynb` - Compares the frequency response of an extracted old detector filter to that of a filter designed for a new detector.
 * `Old Bird Detector Reimplementation.ipynb` - Demonstrates the processing stages of the new detector.
 * `test_detector.py` - Runs one or more tests that help identify old detector parameter values or compare the old and new detectors.
+
+Many thanks to [MPG Ranch](http://mpgranch.com), [Old Bird](http://oldbird.org), and an anonymous donor for financial support of the Vesper project.
