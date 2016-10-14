@@ -1,7 +1,9 @@
-Most of the contents of the "Old Bird" directory of this repository are
-copyright Old Bird, Inc. (www.oldbird.org) and are included with permission.
-See the file "Old Bird/README.txt" for details. Copyright ownership and
-licensing for the remainder of this repository is as indicated below.
+All .exe, .c, and .mdl files in the "Old Bird" directory of this repository
+and (recursively) its subdirectories are copyright Old Bird, Inc.
+(www.oldbird.org) and are included here with permission.
+
+Copyright ownership and licensing for all other files in this repository is
+as follows:
 
 
 The MIT License (MIT)
