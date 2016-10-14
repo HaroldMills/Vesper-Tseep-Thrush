@@ -1,0 +1,305 @@
+Notes on tseepr.mdl
+Harold Mills
+September 2016
+
+
+System tseepr
+    Block File Exist
+        Block Stop Simulation
+    Block WaveIn
+        Block Detect, Clip & Save
+    
+Block File Exist
+    filename: c:\\stop.txt
+    sampleTime: 3*8192/22050
+    BlockType: Reference
+    SourceBlock: BufferedDSP/Other/File Exist
+
+Block Stop Simulation
+    BlockType: Stop
+
+Block WaveIn
+    buffersize: 8192
+    bufTime: 12
+    sampleRateLit: 22050
+    sampleWidthLit: 16
+    BlockType: Reference
+    SourceBlock: WinAudio/WaveIn
+    
+Block Detect, Clip & Save
+    buffersize: 8192 (inherited by descendants)
+    f0: 6000
+    f1: 10000
+    fs: 22050
+    threshold: 2
+    BlockType: SubSystem
+    System: Detect, Clip & Save
+    
+System Detect, Clip & Save
+    Block Samples
+    Block Select Channel
+        Block Detector
+            Block Pulse Extend
+                Block Overload Check Valve
+                Block Delay
+                    Block Clip & Save
+                    
+Block Samples
+    BlockType: Inport
+    
+Block Select Channel
+    BlockType: Reference
+    SourceBlock: BufferedDSP/Multichannel/Select Channel
+    
+Block Detector
+    f0: inherited
+    f1: inherited
+    fs: inherited
+    filterLength: 100
+    threshold: inherited
+    BlockType: SubSystem
+    System: Detector
+                    
+Block Pulse Extend - Extends ends (1-0 transitions) of binary pulses by lag samples
+    lag: 2000
+    BlockType: Reference
+    SourceBlock: BufferedDSP/Pulse Shapers/Pulse Extend
+    
+Block Overload Check Valve
+    guardTime: 20    # Length of time to check (sec)
+    numEvents: 20    # Prohibited number of events
+    BlockType: SubSystem
+    System: Overload Check Valve
+
+Block Delay
+    delay: 2000
+    BlockType: Reference
+    SourceBlock: BufferedDSP/Memory/Delay
+    
+Block Clip & Save
+    fifosize: buffersize * 4
+    ftype: Wave
+    saveDir: c:\\temp\calls
+    fname: cpr
+    fnamestyle: Local time
+    MaskDescription: Clips sections from "Samples" according to "Gate" and
+        saves to Save Directory using File Name Prefix and adding a time stamp
+    BlockType: SubSystem
+    System: Clip & Save
+    
+System Detector
+    Block Samples
+        Block FIR Filter
+            Block Squared Magnitude
+                Block Integrate
+                    Block Peak Detector
+                        Block Call Detect
+                    Block Long term average
+                        Block Math Function (log10)
+                            Block Gain
+                                Block To Log File
+                                
+             
+Block Samples
+    BlockType: Inport
+     
+Block FIR Filter
+    h: firls(filterLength-1,[0 f0-100 f0 f1 f1+100 fs/2)]/(fs/2),[0, 0, 1, 1, 0, 0])
+    rfft_in: 2*buffersize
+    BlockType: Reference
+    SourceType: OverlapSave
+    SourceBlock: BufferedDSP/Filter/Row Major/FIR Filter
+    
+Block Squared Magnitude
+    BlockType: Math
+    Operator: square
+    
+Block Integrate
+    initial_value: 0
+    integration_time: 2000
+    normalize: on
+    BlockType: Reference
+    SourceBlock: BufferedDSP/Filter/Integrate
+    
+Block Peak detector
+   threshold: inherited
+   BlockType: SubSystem
+   System: Peak detector
+    
+Block Call Detect
+    InitialOutput: 0
+    OutputWhenDisabled: held
+    BlockType: Outport
+   
+Block Long term average
+    BlockType: SubSystem
+    System: Long term average
+    
+Block Math Function
+    BlockType: Math
+    Operator: log10
+    
+Block Gain
+    BlockType: Gain
+    Gain: 10
+    
+Block To Log File
+    filename: c:\\Logfile.txt
+    sample_time: -1
+    time_stamp_option: Local time
+    BlockType: Reference
+    SourceBlock BufferedDSP/Other/To Log File
+    
+System Peak detector
+
+Lines:
+    Relational Operator 2 -> Logical Operator (Port 2)
+    Constant 1 -> Relational Operator 2 (Port 2)
+    Counter -> Relational Operator 2 (Port 1)
+    Relational Operator 1 -> Logical Operator
+    Product 1 -> Relational Operator 1
+    Pulse Limited Flip Flop -> Call Detect
+    Relational Operator -> Pulse Limited Flip Flop (Port 2)
+    Logical Operator -> Pulse Limited Flip Flop (Port 1)
+    Product -> Relational Operator
+    
+Branches:
+    Delay -> Product (Port 2)
+    Energy -> Product 1 (double branch)
+    Constant -> Relational Operator 1 (Port 2)
+    
+    Block Energy
+        Delay
+    
+            Block Product 1 (/*)
+            Block Constant (threshold)
+                Block Relational Operator 1 (>)
+            Block Counter
+            Block Constant1 (0)
+                Block Relational Operator 2 (>)
+                    Block LogicalOperator OR
+                
+            Block Product (*/)
+                Block Relational Operator (>)
+                
+                        Block Pulse Limited Flip Flop
+                            Call Detect
+              
+ Block Energy
+     BlockType: Inport
+     
+ Block Constant
+     Value: threshold
+     BlockType: Constant
+     
+ Block Constant1
+     Value: 0
+     BlockType: Constant
+     
+ Block Counter
+     initial_count: 1.2*buffersize
+     count_direction: Down
+     BlockType: Reference
+     SourceBlock: BufferedDSP/Counters/Counter
+     
+ Block Delay
+     delay: fix(fs * .020)
+     BlockType: Reference
+     SourceBlock: BufferedDSP/Memory/Delay
+     
+ Block Logical Operator
+     Operator: OR
+     BlockType: Logic
+     
+ Block Product
+     Inputs: */
+     BlockType: Product
+     
+ Block Product1
+     Inputs: /*
+     BlockType: Product
+     
+ Block Pulse Limited Flip Flop
+     initial_state: 0
+     maxLimit: fix(0.4 * fs)
+     minLimit: fix(0.1 * fs)
+     BlockType: Reference
+     SourceBlock: BufferedDSP/Memory/Pulse Limited Flip Flop
+     
+ Block Relational Operator
+     Operator: >
+     BlockType: RelationalOperator
+     
+ Block Relational Operator1
+     Operator: >
+     BlockType: RelationalOperator
+     
+ Block Relational Operator2
+     Operator: >
+     BlockType: RelationalOperator
+     
+ Block Call Detect
+     InitialOutput: 0
+     OutputWhenDisabled: held
+     BlockType: Outport
+     
+ System Overload Check Valve
+ 
+     Input and output signals are single channel boolean event markers.
+     If more than a prohibited number of events occur in a specified
+     time duration, the output is zero. Otherwise, the input is passed
+     through (ANDed) to the output.
+     
+     Block Unnamed 0
+     Block Unnamed 1
+     Block Unnamed 2
+     Block Unnamed 3
+     Block Unnamed 4
+     Block Unnamed 5
+     
+     Block Digital Clock
+     Block Edge Detect
+         Block Gated Shift Register
+     
+ Block Unnamed 0
+     BlockType: Inport
+     
+ Block Unnamed 1
+     Value: guardTime
+     BlockType: Constant
+     
+ Block Unnamed 2
+     Operator: >
+     BlockType: RelationalOperator
+     
+ Block Unnamed 3
+     Operator: AND
+     BlockType: Logic
+     
+ Block Unnamed 4
+     Inputs: +-
+     BlockType: Sum
+     
+ Block Digital Clock
+     t0: guardTime+1
+     BlockType: Reference
+     SourceBlock: BufferedDSP/Counters/Digital Clock
+     
+ Block Edge Detect
+     BlockType: Reference
+     SourceBlock: BufferedDSP/Pulse Shapers/Edge Detect
+     
+ Block Gated Shift Register
+     reg_size: numEvents
+     BlockType: Reference
+     SourceBlock: BufferedDSP/Memory/Gated Shift Register
+     
+ Block Unnamed 5
+     BlockType: Outport
+     
+ System Clip & Save
+     Clips sections from "Samples" according to "Gate" and saves to
+     Save Directory using File Name Prefix and adding a time stamp.
+ 
+     
+ 

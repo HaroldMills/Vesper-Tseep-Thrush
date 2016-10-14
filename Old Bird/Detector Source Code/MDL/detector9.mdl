@@ -1,0 +1,1480 @@
+Model {
+  Name			  "detector9"
+  Version		  2.20
+  SimParamPage		  RTW
+  SampleTimeColors	  off
+  InvariantConstants	  off
+  WideVectorLines	  off
+  ShowLineWidths	  off
+  StartTime		  "0.0"
+  StopTime		  "Inf"
+  Solver		  FixedStepDiscrete
+  RelTol		  "1e-3"
+  AbsTol		  "1e-6"
+  Refine		  "1"
+  MaxStep		  "auto"
+  InitialStep		  "auto"
+  FixedStep		  "auto"
+  MaxOrder		  5
+  OutputOption		  RefineOutputTimes
+  OutputTimes		  "[]"
+  LoadExternalInput	  off
+  ExternalInput		  "[t, u]"
+  SaveTime		  off
+  TimeSaveName		  "tout"
+  SaveState		  off
+  StateSaveName		  "xout"
+  SaveOutput		  off
+  OutputSaveName	  "yout"
+  LoadInitialState	  off
+  InitialState		  "xInitial"
+  SaveFinalState	  off
+  FinalStateName	  "xFinal"
+  LimitMaxRows		  off
+  MaxRows		  "1000"
+  Decimation		  "1"
+  AlgebraicLoopMsg	  warning
+  MinStepSizeMsg	  warning
+  UnconnectedInputMsg	  warning
+  UnconnectedOutputMsg	  warning
+  UnconnectedLineMsg	  warning
+  ConsistencyChecking	  off
+  ZeroCross		  on
+  SimulationMode	  normal
+  RTWSystemTargetFile	  "grt.tlc"
+  RTWInlineParameters	  off
+  RTWPlaceOutputsASAP	  off
+  RTWRetainRTWFile	  off
+  RTWTemplateMakefile	  "c:\\nfc\\matlab\\simulink\\grt_vc_sgm.tmf"
+  RTWMakeCommand	  "make_rtw USER_SRCS=\"winmm.lib\" USER_INCLUDES=\"-I"
+"c:\\nfc\\matlab\\Simulink\\BufferedDSP\\src\\rtw\""
+  RTWGenerateCodeOnly	  off
+  ExtModeMexFile	  "ext_comm"
+  ExtModeBatchMode	  off
+  BlockDefaults {
+    Orientation		    right
+    ForegroundColor	    black
+    BackgroundColor	    white
+    DropShadow		    off
+    NamePlacement	    normal
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    normal
+    FontAngle		    normal
+    ShowName		    on
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    center
+    VerticalAlignment	    middle
+    ForegroundColor	    black
+    BackgroundColor	    white
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    normal
+    FontAngle		    normal
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    normal
+    FontAngle		    normal
+  }
+  System {
+    Name		    "detector9"
+    Location		    [377, 110, 684, 421]
+    Open		    on
+    ToolBar		    on
+    StatusBar		    on
+    ScreenColor		    white
+    PaperOrientation	    landscape
+    PaperPositionMode	    auto
+    PaperType		    usletter
+    PaperUnits		    inches
+    Block {
+      BlockType		      SubSystem
+      Name		      "Detect, Clip & Save"
+      Ports		      [1, 0, 0, 0, 0]
+      Position		      [140, 75, 245, 115]
+      ShowPortLabels	      on
+      MaskType		      "DetectClipNSave"
+      MaskDescription	      "Detects acoustic events in a frequency band, cl"
+"ips, and saves them to disk."
+      MaskHelp		      "Detects acoustic events in a frequency band, cl"
+"ips, and saves them to disk."
+      MaskPromptString	      "Buffer Size:|Lower Frequency (Hz):|Upper Freque"
+"ncy (Hz):|Threshold:|Number of Channels:|Column major channel order:|Sample R"
+"ate (Hz):"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit"
+      MaskTunableValueString  "on,on,on,on,on,on,on"
+      MaskVariables	      "buffersize=@1;f0=@2;f1=@3;threshold=@4;numChann"
+"els=@5;col_major=@6;fs=@7;"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      none
+      MaskIconUnits	      autoscale
+      MaskValueString	      "8192|4300|5500|2|1|0|22050"
+      System {
+	Name			"Detect, Clip & Save"
+	Location		[112, 404, 916, 662]
+	Open			off
+	ToolBar			off
+	StatusBar		off
+	ScreenColor		white
+	PaperOrientation	landscape
+	PaperPositionMode	auto
+	PaperType		usletter
+	PaperUnits		inches
+	Block {
+	  BlockType		  Inport
+	  Name			  "Samples"
+	  Position		  [35, 90, 55, 110]
+	  Port			  "1"
+	  PortWidth		  "buffersize * numChannels"
+	  SampleTime		  "-1"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Clip & Save"
+	  Ports			  [2, 0, 0, 0, 0]
+	  Position		  [685, 75, 800, 130]
+	  ShowPortLabels	  on
+	  MaskType		  "ClipAndSave"
+	  MaskDescription	  "Clips sections from \"Samples\" according t"
+"o \"Gate\" and saves to Save Directory using File Name Prefix and adding a ti"
+"me stamp."
+	  MaskHelp		  "Clips sections from \"Samples\" according t"
+"o \"Gate\" and saves to Save Directory using File Name Prefix and adding a ti"
+"me stamp."
+	  MaskPromptString	  "Buffer size (samples):|FIFO size (samples):"
+"|Number of Channels:|Column major channel order|File type:|Save Directory:|Fi"
+"le Name Prefix:|File name time stamp:|Sample Rate (Hz):"
+	  MaskStyleString	  "edit,edit,edit,edit,popup(Wave|Mac Binary|M"
+"atlab|ASCII Float|ASCII Fixed|Binary Float|Binary Fixed|AIFF),edit,edit,popup"
+"(GMT|Local time|Time from start),edit"
+	  MaskTunableValueString  "on,on,on,on,on,on,on,on,on"
+	  MaskVariables		  "buffersize=@1;fifosize=@2;numChannels=@3;co"
+"l_major=@4;ftype=@5;saveDir=&6;fname=&7;fnamestyle=@8;fs=@9;"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  none
+	  MaskIconUnits		  autoscale
+	  MaskValueString	  "buffersize|buffersize * 4|numChannels|col_m"
+"ajor|Wave|c:\\temp\\calls\\2May98DICK|Call|Time from start|fs"
+	  System {
+	    Name		    "Clip & Save"
+	    Location		    [24, 653, 443, 851]
+	    Open		    off
+	    ToolBar		    off
+	    StatusBar		    off
+	    ScreenColor		    white
+	    PaperOrientation	    landscape
+	    PaperPositionMode	    auto
+	    PaperType		    usletter
+	    PaperUnits		    inches
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Samples"
+	      Position		      [40, 55, 60, 75]
+	      Port		      "1"
+	      PortWidth		      "buffersize * numChannels"
+	      SampleTime	      "-1"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Gate"
+	      Position		      [40, 100, 60, 120]
+	      Port		      "2"
+	      PortWidth		      "buffersize"
+	      SampleTime	      "-1"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "FIFO"
+	      Ports		      [1, 1, 0, 0, 0]
+	      Position		      [110, 53, 200, 77]
+	      SourceBlock	      "BufferedDSP/Memory/FIFO"
+	      SourceType	      "FIFO"
+	      input_width	      "buffersize"
+	      output_width	      "fifosize"
+	      numChannels	      "numChannels"
+	      col_major		      "col_major"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "FIFO1"
+	      Ports		      [1, 1, 0, 0, 0]
+	      Position		      [110, 98, 200, 122]
+	      SourceBlock	      "BufferedDSP/Memory/FIFO"
+	      SourceType	      "FIFO"
+	      input_width	      "buffersize"
+	      output_width	      "fifosize"
+	      numChannels	      "1"
+	      col_major		      "col_major"
+	    }
+	    Block {
+	      BlockType		      "S-Function"
+	      Name		      "S-Function"
+	      Ports		      [2, 0, 0, 0, 0]
+	      Position		      [245, 72, 305, 103]
+	      ShowName		      off
+	      FunctionName	      "sclipnsave"
+	      Parameters	      "buffersize fifosize numChannels col_maj"
+"or fname saveDir ftype fnamestyle fs"
+	      PortCounts	      "[]"
+	      SFunctionModules	      "''"
+	    }
+	    Line {
+	      SrcBlock		      "FIFO1"
+	      SrcPort		      1
+	      Points		      [15, 0; 0, -15]
+	      DstBlock		      "S-Function"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "FIFO"
+	      SrcPort		      1
+	      Points		      [15, 0; 0, 15]
+	      DstBlock		      "S-Function"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Gate"
+	      SrcPort		      1
+	      DstBlock		      "FIFO1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Samples"
+	      SrcPort		      1
+	      DstBlock		      "FIFO"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Delay"
+	  Ports			  [1, 1, 0, 0, 0]
+	  Position		  [420, 38, 495, 62]
+	  SourceBlock		  "BufferedDSP/Memory/Delay"
+	  SourceType		  "Delay"
+	  buffersize		  "buffersize"
+	  delay			  "15000"
+	  numChannels		  "numChannels"
+	  col_major		  "col_major"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Detector"
+	  Ports			  [1, 1, 0, 0, 0]
+	  Position		  [230, 69, 390, 131]
+	  ShowPortLabels	  on
+	  MaskType		  "Detector"
+	  MaskDescription	  "Examines band-limited energy for events."
+	  MaskPromptString	  "Buffer Size:|Lower Frequency (Hz):|Upper Fr"
+"equency (Hz):|Filter Length:|Threshold:|Number of Channels:|Column major chan"
+"nel order:|Sample Rate:"
+	  MaskStyleString	  "edit,edit,edit,edit,edit,edit,edit,edit"
+	  MaskTunableValueString  "on,on,on,on,on,on,on,on"
+	  MaskVariables		  "buffersize=@1;f0=@2;f1=@3;filterLength=@4;t"
+"hreshold=@5;numChannels=@6;col_major=@7;fs=@8;"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  none
+	  MaskIconUnits		  autoscale
+	  MaskValueString	  "buffersize|f0|f1|100|threshold|1|col_major|"
+"fs"
+	  System {
+	    Name		    "Detector"
+	    Location		    [59, 389, 886, 735]
+	    Open		    off
+	    ToolBar		    off
+	    StatusBar		    off
+	    ScreenColor		    white
+	    PaperOrientation	    landscape
+	    PaperPositionMode	    auto
+	    PaperType		    usletter
+	    PaperUnits		    inches
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Samples"
+	      Position		      [20, 130, 40, 150]
+	      Port		      "1"
+	      PortWidth		      "buffersize *numChannels"
+	      SampleTime	      "-1"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Delay1"
+	      Ports		      [1, 1, 0, 0, 0]
+	      Position		      [245, 128, 330, 152]
+	      SourceBlock	      "BufferedDSP/Memory/Delay"
+	      SourceType	      "Delay"
+	      buffersize	      "buffersize"
+	      delay		      "10000"
+	      numChannels	      "1"
+	      col_major		      "1"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Dicksissel Recognizer"
+	      Ports		      [1, 1, 0, 0, 0]
+	      Position		      [280, 36, 470, 84]
+	      ShowPortLabels	      on
+	      MaskPromptString	      "Buffer size:|Sample Rate (Hz):|Threshol"
+"d:"
+	      MaskStyleString	      "edit,edit,edit"
+	      MaskTunableValueString  "on,on,on"
+	      MaskVariables	      "buffersize=@1;fs=@2;threshold=@3;"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      none
+	      MaskIconUnits	      autoscale
+	      MaskValueString	      "8192|22050|0.5"
+	      System {
+		Name			"Dicksissel Recognizer"
+		Location		[87, 66, 864, 531]
+		Open			off
+		ToolBar			off
+		StatusBar		off
+		ScreenColor		white
+		PaperOrientation	landscape
+		PaperPositionMode	auto
+		PaperType		usletter
+		PaperUnits		inches
+		Block {
+		  BlockType		  Inport
+		  Name			  "Squared\nSignal"
+		  Position		  [20, 58, 50, 72]
+		  Port			  "1"
+		  PortWidth		  "buffersize"
+		  SampleTime		  "-1"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant"
+		  Position		  [375, 174, 425, 196]
+		  ShowName		  off
+		  Value			  "threshold"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Downsample by 10"
+		  Ports			  [1, 1, 0, 0, 0]
+		  Position		  [200, 46, 280, 84]
+		  ShowName		  off
+		  SourceBlock		  "BufferedDSP/Filter/Single Channel/D"
+"ownsample by 8"
+		  SourceType		  "Downsample by 8"
+		  buffersize		  "buffersize"
+		  h			  "fir1(100,1/8)"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Downsample by 8"
+		  Ports			  [1, 1, 0, 0, 0]
+		  Position		  [305, 46, 385, 84]
+		  ShowName		  off
+		  SourceBlock		  "BufferedDSP/Filter/Single Channel/D"
+"ownsample by 8"
+		  SourceType		  "Downsample by 8"
+		  buffersize		  "buffersize/8"
+		  h			  "fir1(100,1/8)"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "FIR Filter2"
+		  Ports			  [1, 1, 0, 0, 0]
+		  Position		  [115, 142, 180, 188]
+		  SourceBlock		  "BufferedDSP/Filter/Row Major/FIR Fi"
+"lter1"
+		  SourceType		  "OverlapAdd"
+		  input_width		  "buffersize/64"
+		  nfft_in		  "buffersize/32"
+		  h			  "fir1(200,[55,80]/(fs/128),'DC-0')"
+		  numChannels		  "1"
+		  Ts			  "-1"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "FIR Filter3"
+		  Ports			  [1, 1, 0, 0, 0]
+		  Position		  [115, 222, 180, 268]
+		  SourceBlock		  "BufferedDSP/Filter/Row Major/FIR Fi"
+"lter1"
+		  SourceType		  "OverlapAdd"
+		  input_width		  "buffersize/64"
+		  nfft_in		  "buffersize/32"
+		  h			  "fir1(200,[20,110]/(fs/128),'DC-0')"
+		  numChannels		  "1"
+		  Ts			  "-1"
+		}
+		Block {
+		  BlockType		  From
+		  Name			  "From"
+		  Position		  [25, 180, 55, 210]
+		  CloseFcn		  "tagdialog Close"
+		  GotoTag		  "A"
+		}
+		Block {
+		  BlockType		  Goto
+		  Name			  "Goto"
+		  Position		  [415, 50, 445, 80]
+		  GotoTag		  "A"
+		  TagVisibility		  local
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integrate"
+		  Ports			  [1, 1, 0, 0, 0]
+		  Position		  [105, 47, 170, 83]
+		  SourceBlock		  "BufferedDSP/Filter/Integrate"
+		  SourceType		  "Integrate"
+		  buffersize		  "buffersize"
+		  integration_time	  "100"
+		  normalize		  on
+		  initial_value		  "0"
+		  numChannels		  "1"
+		  col_major		  "0"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integrate1"
+		  Ports			  [1, 1, 0, 0, 0]
+		  Position		  [260, 147, 325, 183]
+		  SourceBlock		  "BufferedDSP/Filter/Integrate"
+		  SourceType		  "Integrate"
+		  buffersize		  "buffersize/64"
+		  integration_time	  "round(.9*fs/64)"
+		  normalize		  on
+		  initial_value		  "0"
+		  numChannels		  "1"
+		  col_major		  "0"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Integrate2"
+		  Ports			  [1, 1, 0, 0, 0]
+		  Position		  [260, 227, 325, 263]
+		  SourceBlock		  "BufferedDSP/Filter/Integrate"
+		  SourceType		  "Integrate"
+		  buffersize		  "buffersize/64"
+		  integration_time	  "round(.9*fs/64)"
+		  normalize		  on
+		  initial_value		  "0"
+		  numChannels		  "1"
+		  col_major		  "0"
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "Math\nFunction1"
+		  Ports			  [1, 1, 0, 0, 0]
+		  Position		  [205, 150, 235, 180]
+		  ShowName		  off
+		  Operator		  square
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "Math\nFunction2"
+		  Ports			  [1, 1, 0, 0, 0]
+		  Position		  [210, 230, 240, 260]
+		  ShowName		  off
+		  Operator		  square
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product"
+		  Ports			  [2, 1, 0, 0, 0]
+		  Position		  [395, 117, 425, 148]
+		  ShowName		  off
+		  Inputs		  "*/"
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator"
+		  Position		  [450, 142, 480, 173]
+		  ShowName		  off
+		  Operator		  ">"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Upsample & Hold"
+		  Ports			  [1, 1, 0, 0, 0]
+		  Position		  [520, 145, 610, 175]
+		  ShowName		  off
+		  SourceBlock		  "BufferedDSP/Other/Upsample & Hold"
+		  SourceType		  "Upsample & Hold"
+		  buffersize		  "buffersize/64"
+		  L			  "64"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Dicksissel\nFound"
+		  Position		  [640, 153, 670, 167]
+		  Port			  "1"
+		  OutputWhenDisabled	  held
+		  InitialOutput		  "[]"
+		}
+		Line {
+		  SrcBlock		  "Math\nFunction1"
+		  SrcPort		  1
+		  DstBlock		  "Integrate1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Math\nFunction2"
+		  SrcPort		  1
+		  DstBlock		  "Integrate2"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "FIR Filter3"
+		  SrcPort		  1
+		  DstBlock		  "Math\nFunction2"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "FIR Filter2"
+		  SrcPort		  1
+		  DstBlock		  "Math\nFunction1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "From"
+		  SrcPort		  1
+		  Points		  [40, 0]
+		  Branch {
+		    DstBlock		    "FIR Filter3"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "FIR Filter2"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Downsample by 8"
+		  SrcPort		  1
+		  DstBlock		  "Goto"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Integrate"
+		  SrcPort		  1
+		  DstBlock		  "Downsample by 10"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Downsample by 10"
+		  SrcPort		  1
+		  DstBlock		  "Downsample by 8"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Squared\nSignal"
+		  SrcPort		  1
+		  DstBlock		  "Integrate"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Product"
+		  SrcPort		  1
+		  Points		  [5, 0]
+		  DstBlock		  "Relational\nOperator"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator"
+		  SrcPort		  1
+		  DstBlock		  "Upsample & Hold"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Upsample & Hold"
+		  SrcPort		  1
+		  DstBlock		  "Dicksissel\nFound"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Integrate2"
+		  SrcPort		  1
+		  Points		  [40, 0; 0, -105]
+		  DstBlock		  "Product"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Integrate1"
+		  SrcPort		  1
+		  Points		  [15, 0; 0, -40]
+		  DstBlock		  "Product"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant"
+		  SrcPort		  1
+		  Points		  [5, 0]
+		  DstBlock		  "Relational\nOperator"
+		  DstPort		  2
+		}
+		Annotation {
+		  Position		  [222, 291]
+		  Text			  "Find broadband envelope modulation"
+		}
+		Annotation {
+		  Position		  [214, 131]
+		  Text			  "Find envelope modulation near 80Hz"
+		}
+		Annotation {
+		  Position		  [288, 22]
+		  Text			  "Compute the energy envelope, and de"
+"cimate to a low sample rate"
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "FIR Filter"
+	      Ports		      [1, 1, 0, 0, 0]
+	      Position		      [80, 118, 155, 162]
+	      SourceBlock	      "BufferedDSP/Filter/Row Major/FIR Filter"
+	      SourceType	      "OverlapSave"
+	      input_width	      "buffersize"
+	      nfft_in		      "2*buffersize"
+	      h			      "firls(filterLength-1,[0 f0-100 f0 f1 f1"
+"+100 fs/2]/(fs/2),[0,0,1,1,0,0])"
+	      numChannels	      "numChannels"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Integrate"
+	      Ports		      [1, 1, 0, 0, 0]
+	      Position		      [365, 122, 445, 158]
+	      SourceBlock	      "BufferedDSP/Filter/Integrate"
+	      SourceType	      "Integrate"
+	      buffersize	      "buffersize"
+	      integration_time	      "1103"
+	      normalize		      on
+	      initial_value	      "0"
+	      numChannels	      "numChannels"
+	      col_major		      "col_major"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Long term average"
+	      Ports		      [1, 1, 0, 0, 0]
+	      Position		      [560, 204, 665, 236]
+	      ShowPortLabels	      on
+	      System {
+		Name			"Long term average"
+		Location		[203, 331, 569, 538]
+		Open			off
+		ToolBar			off
+		StatusBar		off
+		ScreenColor		white
+		PaperOrientation	landscape
+		PaperPositionMode	auto
+		PaperType		usletter
+		PaperUnits		inches
+		Block {
+		  BlockType		  Inport
+		  Name			  "Samples"
+		  Position		  [30, 88, 60, 102]
+		  Port			  "1"
+		  PortWidth		  "-1"
+		  SampleTime		  "-1"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Buffer"
+		  Ports			  [1, 1, 0, 0, 0]
+		  Position		  [130, 74, 175, 116]
+		  SourceBlock		  "dspbuff/Buffer"
+		  SourceType		  "Buffer"
+		  N			  "round(3600/(buffersize/fs))"
+		  V			  "0"
+		  Ts			  "buffersize/fs"
+		  ic			  "0"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain"
+		  Position		  [250, 79, 280, 111]
+		  ShowName		  off
+		  Gain			  "1/(buffersize*round(3600/(buffersiz"
+"e/fs)))"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum2"
+		  Ports			  [1, 1, 0, 0, 0]
+		  Position		  [85, 79, 115, 111]
+		  ShowName		  off
+		  Inputs		  "1"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum3"
+		  Ports			  [1, 1, 0, 0, 0]
+		  Position		  [195, 79, 225, 111]
+		  ShowName		  off
+		  Inputs		  "1"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Average"
+		  Position		  [305, 88, 335, 102]
+		  Port			  "1"
+		  OutputWhenDisabled	  held
+		  InitialOutput		  "[]"
+		}
+		Line {
+		  SrcBlock		  "Sum2"
+		  SrcPort		  1
+		  DstBlock		  "Buffer"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Buffer"
+		  SrcPort		  1
+		  DstBlock		  "Sum3"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Sum3"
+		  SrcPort		  1
+		  DstBlock		  "Gain"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Gain"
+		  SrcPort		  1
+		  DstBlock		  "Average"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Samples"
+		  SrcPort		  1
+		  DstBlock		  "Sum2"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Peak detector"
+	      Ports		      [2, 1, 0, 0, 0]
+	      Position		      [545, 128, 710, 172]
+	      ShowPortLabels	      on
+	      MaskType		      "PeakDetector"
+	      MaskDescription	      "Finds large plateaus in an energy signa"
+"l."
+	      MaskHelp		      "Finds large plateaus in an energy signa"
+"l."
+	      MaskPromptString	      "Threshold:|Buffer Size:|Number of Chann"
+"els:|Column major channel order:|Sample Rate:"
+	      MaskStyleString	      "edit,edit,edit,edit,edit"
+	      MaskTunableValueString  "on,on,on,on,on"
+	      MaskVariables	      "threshold=@1;buffersize=@2;numChannels="
+"@3;col_major=@4;fs=@5;"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      none
+	      MaskIconUnits	      autoscale
+	      MaskValueString	      "threshold|buffersize|numChannels|col_ma"
+"jor|fs"
+	      System {
+		Name			"Peak detector"
+		Location		[126, 216, 799, 613]
+		Open			off
+		ToolBar			off
+		StatusBar		off
+		ScreenColor		white
+		PaperOrientation	landscape
+		PaperPositionMode	auto
+		PaperType		usletter
+		PaperUnits		inches
+		Block {
+		  BlockType		  Inport
+		  Name			  "Energy"
+		  Position		  [20, 185, 40, 205]
+		  Port			  "1"
+		  PortWidth		  "buffersize * numChannels"
+		  SampleTime		  "-1"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "Enable"
+		  Position		  [365, 235, 385, 255]
+		  Port			  "2"
+		  PortWidth		  "buffersize"
+		  SampleTime		  "-1"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant"
+		  Position		  [250, 134, 310, 156]
+		  ShowName		  off
+		  Value			  "threshold"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant1"
+		  Position		  [320, 360, 340, 380]
+		  ShowName		  off
+		  Value			  "0"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Counter"
+		  Ports			  [0, 1, 0, 0, 0]
+		  Position		  [300, 327, 340, 353]
+		  ShowName		  off
+		  SourceBlock		  "BufferedDSP/Counters/Counter"
+		  SourceType		  "Counter"
+		  buffersize		  "buffersize"
+		  initial_count		  "1.2*buffersize"
+		  count_direction	  Down
+		  has_stop_count	  on
+		  stop_count		  "0"
+		  numChannels		  "numChannels"
+		  col_major		  "1"
+		  ts			  "-1"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Delay"
+		  Ports			  [1, 1, 0, 0, 0]
+		  Position		  [115, 223, 200, 247]
+		  SourceBlock		  "BufferedDSP/Memory/Delay"
+		  SourceType		  "Delay"
+		  buffersize		  "buffersize"
+		  delay			  "fix(fs * .020)"
+		  numChannels		  "numChannels"
+		  col_major		  "col_major"
+		}
+		Block {
+		  BlockType		  Logic
+		  Name			  "Logical\nOperator"
+		  Ports			  [2, 1, 0, 0, 0]
+		  Position		  [435, 291, 465, 324]
+		  ShowName		  off
+		  Operator		  OR
+		  Inputs		  "2"
+		}
+		Block {
+		  BlockType		  Logic
+		  Name			  "Logical\nOperator1"
+		  Ports			  [2, 1, 0, 0, 0]
+		  Position		  [435, 216, 465, 249]
+		  ShowName		  off
+		  Operator		  AND
+		  Inputs		  "2"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product"
+		  Ports			  [2, 1, 0, 0, 0]
+		  Position		  [265, 187, 295, 218]
+		  ShowName		  off
+		  Inputs		  "*/"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product1"
+		  Ports			  [2, 1, 0, 0, 0]
+		  Position		  [260, 272, 290, 303]
+		  ShowName		  off
+		  Inputs		  "/*"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Pulse Limited\nFlip Flop"
+		  Ports			  [2, 1, 0, 0, 0]
+		  Position		  [510, 211, 540, 244]
+		  SourceBlock		  "BufferedDSP/Memory/Pulse Limited\nF"
+"lip Flop"
+		  SourceType		  "PulseLimitedFlipFlop"
+		  buffersize		  "buffersize"
+		  initial_state		  "0"
+		  minLimit		  "fix(0.1 * fs)"
+		  maxLimit		  "fix(0.4 * fs)"
+		  numChannels		  "numChannels"
+		  col_major		  "col_major"
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator"
+		  Position		  [365, 197, 395, 228]
+		  ShowName		  off
+		  Operator		  ">"
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator1"
+		  Position		  [365, 282, 395, 313]
+		  ShowName		  off
+		  Operator		  ">"
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator2"
+		  Position		  [365, 337, 395, 368]
+		  ShowName		  off
+		  Operator		  ">"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Call\nDetect"
+		  Position		  [580, 220, 600, 240]
+		  Port			  "1"
+		  OutputWhenDisabled	  held
+		  InitialOutput		  "0"
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator2"
+		  SrcPort		  1
+		  Points		  [20, 0]
+		  DstBlock		  "Logical\nOperator"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Constant1"
+		  SrcPort		  1
+		  Points		  [5, 0]
+		  DstBlock		  "Relational\nOperator2"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Counter"
+		  SrcPort		  1
+		  Points		  [0, 5]
+		  DstBlock		  "Relational\nOperator2"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator1"
+		  SrcPort		  1
+		  DstBlock		  "Logical\nOperator"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Delay"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  Branch {
+		    Points		    [0, 60]
+		    DstBlock		    "Product1"
+		    DstPort		    2
+		  }
+		  Branch {
+		    Points		    [0, -25]
+		    DstBlock		    "Product"
+		    DstPort		    2
+		  }
+		}
+		Line {
+		  Labels		  [0, 0]
+		  SrcBlock		  "Energy"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  Branch {
+		    Points		    [0, 40]
+		    DstBlock		    "Delay"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [155, 0]
+		    Branch {
+		    DstBlock		    "Product"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 85]
+		    DstBlock		    "Product1"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Line {
+		  SrcBlock		  "Constant"
+		  SrcPort		  1
+		  Points		  [10, 0; 0, 75]
+		  Branch {
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    2
+		  }
+		  Branch {
+		    Points		    [0, 85]
+		    DstBlock		    "Relational\nOperator1"
+		    DstPort		    2
+		  }
+		}
+		Line {
+		  SrcBlock		  "Product1"
+		  SrcPort		  1
+		  DstBlock		  "Relational\nOperator1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Pulse Limited\nFlip Flop"
+		  SrcPort		  1
+		  DstBlock		  "Call\nDetect"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Logical\nOperator"
+		  SrcPort		  1
+		  Points		  [10, 0; 0, -90]
+		  DstBlock		  "Pulse Limited\nFlip Flop"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator"
+		  SrcPort		  1
+		  Points		  [20, 0]
+		  DstBlock		  "Logical\nOperator1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Enable"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  DstBlock		  "Logical\nOperator1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Logical\nOperator1"
+		  SrcPort		  1
+		  DstBlock		  "Pulse Limited\nFlip Flop"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Product"
+		  SrcPort		  1
+		  DstBlock		  "Relational\nOperator"
+		  DstPort		  1
+		}
+		Annotation {
+		  Position		  [224, 347]
+		  Text			  "Don't allow detection during\niniti"
+"al startup -- too unstable."
+		}
+		Annotation {
+		  Position		  [121, 51]
+		  Text			  "Peak Detector"
+		}
+		Annotation {
+		  Position		  [126, 94]
+		  Text			  "In effect, this subsystem threshhol"
+"ds\nthe derivative of the log magnitude\nof the signal energy.  A rise in ene"
+"rgy\nbegins a call, a fall in energy ends it."
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "Squared\nMagnitude"
+	      Ports		      [1, 1, 0, 0, 0]
+	      Position		      [180, 124, 210, 156]
+	      ShowName		      off
+	      Operator		      square
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "To Log File"
+	      Ports		      [1, 0, 0, 0, 0]
+	      Position		      [685, 204, 770, 236]
+	      SourceBlock	      "BufferedDSP/Other/To Log File"
+	      SourceType	      "To Log File"
+	      sample_time	      "3600"
+	      input_width	      "1"
+	      time_stamp_option	      "Local time"
+	      filename		      "c:\\Logfile.txt"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Call\nDetect"
+	      Position		      [760, 140, 780, 160]
+	      Port		      "1"
+	      OutputWhenDisabled      held
+	      InitialOutput	      "0"
+	    }
+	    Line {
+	      SrcBlock		      "FIR Filter"
+	      SrcPort		      1
+	      DstBlock		      "Squared\nMagnitude"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Integrate"
+	      SrcPort		      1
+	      Points		      [5, 0]
+	      Branch {
+		DstBlock		"Peak detector"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 80]
+		DstBlock		"Long term average"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Samples"
+	      SrcPort		      1
+	      DstBlock		      "FIR Filter"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Peak detector"
+	      SrcPort		      1
+	      DstBlock		      "Call\nDetect"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Long term average"
+	      SrcPort		      1
+	      DstBlock		      "To Log File"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Squared\nMagnitude"
+	      SrcPort		      1
+	      Points		      [5, 0]
+	      Branch {
+		Points			[0, -80]
+		DstBlock		"Dicksissel Recognizer"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"Delay1"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Dicksissel Recognizer"
+	      SrcPort		      1
+	      Points		      [55, 0]
+	      DstBlock		      "Peak detector"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Delay1"
+	      SrcPort		      1
+	      DstBlock		      "Integrate"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Overload Check Valve"
+	  Ports			  [1, 1, 0, 0, 0]
+	  Position		  [535, 101, 640, 129]
+	  ShowPortLabels	  on
+	  MaskType		  "Overload Check Valve"
+	  MaskDescription	  "Input and output signals are single channel"
+" Boolean event markers.  If more than a prohibited number of events occur in "
+"a specified time duration, the output is zero.  Otherwise, the input is passe"
+"d through (ANDed) to the output."
+	  MaskHelp		  "Input and output signals are single channel"
+" Boolean event markers.  If more than a prohibited number of events occur in "
+"a specified time duration, the output is zero.  Otherwise, the input is passe"
+"d through (ANDed) to the output."
+	  MaskPromptString	  "Buffer size (samples):|Length of time to ch"
+"eck: (sec)|Prohibited number of events:|Sample rate (Hz):"
+	  MaskStyleString	  "edit,edit,edit,edit"
+	  MaskTunableValueString  "on,on,on,on"
+	  MaskVariables		  "buffersize=@1;guardTime=@2;numEvents=@3;fs="
+"@4;"
+	  MaskDisplay		  "disp(sprintf('%d events in %d sec',numEvent"
+"s,guardTime))"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  none
+	  MaskIconUnits		  autoscale
+	  MaskValueString	  "buffersize|20|20|fs"
+	  System {
+	    Name		    "Overload Check Valve"
+	    Location		    [203, 331, 804, 608]
+	    Open		    off
+	    ToolBar		    off
+	    StatusBar		    off
+	    ScreenColor		    white
+	    PaperOrientation	    landscape
+	    PaperPositionMode	    auto
+	    PaperType		    usletter
+	    PaperUnits		    inches
+	    Block {
+	      BlockType		      Inport
+	      Name		      "      "
+	      Position		      [60, 98, 90, 112]
+	      Port		      "1"
+	      PortWidth		      "buffersize"
+	      SampleTime	      "-1"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      " "
+	      Position		      [335, 190, 400, 220]
+	      Value		      "guardTime"
+	    }
+	    Block {
+	      BlockType		      RelationalOperator
+	      Name		      "  "
+	      Position		      [425, 147, 455, 178]
+	      Operator		      ">"
+	    }
+	    Block {
+	      BlockType		      Logic
+	      Name		      "    "
+	      Ports		      [2, 1, 0, 0, 0]
+	      Position		      [490, 142, 520, 173]
+	      Operator		      AND
+	      Inputs		      "2"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "        "
+	      Ports		      [2, 1, 0, 0, 0]
+	      Position		      [330, 137, 360, 168]
+	      Inputs		      "+-"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Digital Clock"
+	      Ports		      [0, 1, 0, 0, 0]
+	      Position		      [135, 130, 185, 160]
+	      SourceBlock	      "BufferedDSP/Counters/Digital Clock"
+	      SourceType	      "Buffered Digital Clock"
+	      buffersize	      "buffersize"
+	      t0		      "guardTime+1"
+	      fs		      "fs"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Edge Detect"
+	      Ports		      [1, 1, 0, 0, 0]
+	      Position		      [155, 195, 205, 225]
+	      SourceBlock	      "BufferedDSP/Pulse Shapers/Edge Detect"
+	      SourceType	      "EdgeDetect"
+	      buffersize	      "buffersize"
+	      numChannels	      "1"
+	      col_major		      "1"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Gated Shift\nRegister"
+	      Ports		      [2, 1, 0, 0, 0]
+	      Position		      [230, 186, 300, 219]
+	      SourceBlock	      "BufferedDSP/Memory/Gated Shift\nRegiste"
+"r"
+	      SourceType	      "Gated Shift Register"
+	      buffersize	      "buffersize"
+	      reg_size		      "numEvents"
+	      numChannels	      "1"
+	      col_major		      "1"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "     "
+	      Position		      [550, 153, 580, 167]
+	      Port		      "1"
+	      OutputWhenDisabled      held
+	      InitialOutput	      "0"
+	    }
+	    Line {
+	      SrcBlock		      "Digital Clock"
+	      SrcPort		      1
+	      Points		      [25, 0]
+	      Branch {
+		DstBlock		"Gated Shift\nRegister"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"        "
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Edge Detect"
+	      SrcPort		      1
+	      DstBlock		      "Gated Shift\nRegister"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Gated Shift\nRegister"
+	      SrcPort		      1
+	      Points		      [10, 0]
+	      DstBlock		      "        "
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "        "
+	      SrcPort		      1
+	      DstBlock		      "  "
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      " "
+	      SrcPort		      1
+	      Points		      [0, -35]
+	      DstBlock		      "  "
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "      "
+	      SrcPort		      1
+	      Points		      [10, 0]
+	      Branch {
+		Points			[370, 0]
+		DstBlock		"    "
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 105]
+		DstBlock		"Edge Detect"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "    "
+	      SrcPort		      1
+	      DstBlock		      "     "
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "  "
+	      SrcPort		      1
+	      DstBlock		      "    "
+	      DstPort		      2
+	    }
+	    Annotation {
+	      Position		      [229, 53]
+	      Text		      "This system inhibits its (boolean) inpu"
+"t if\nmore than numEvents have occured\nin the past guardTime seconds."
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Pulse Extend"
+	  Ports			  [1, 1, 0, 0, 0]
+	  Position		  [425, 100, 495, 130]
+	  SourceBlock		  "BufferedDSP/Pulse Shapers/Pulse Extend"
+	  SourceType		  "PulseExtend"
+	  buffersize		  "buffersize"
+	  lag			  "10000"
+	  numChannels		  "1"
+	  col_major		  "col_major"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Select Channel"
+	  Ports			  [1, 1, 0, 0, 0]
+	  Position		  [125, 85, 200, 115]
+	  SourceBlock		  "BufferedDSP/Multichannel/Select Channel"
+	  SourceType		  "SelectChannel"
+	  buffersize		  "buffersize"
+	  selectChannel		  "1"
+	  numChannels		  "numChannels"
+	  col_major		  "col_major"
+	}
+	Line {
+	  SrcBlock		  "Detector"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  DstBlock		  "Pulse Extend"
+	  DstPort		  1
+	}
+	Line {
+	  Labels		  [1, 0]
+	  SrcBlock		  "Samples"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    Points		    [0, -50]
+	    DstBlock		    "Delay"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Select Channel"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Select Channel"
+	  SrcPort		  1
+	  DstBlock		  "Detector"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Delay"
+	  SrcPort		  1
+	  Points		  [5, 0; 0, 40]
+	  DstBlock		  "Clip & Save"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Pulse Extend"
+	  SrcPort		  1
+	  DstBlock		  "Overload Check Valve"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Overload Check Valve"
+	  SrcPort		  1
+	  DstBlock		  "Clip & Save"
+	  DstPort		  2
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "File Exist"
+      Ports		      [0, 1, 0, 0, 0]
+      Position		      [75, 164, 125, 196]
+      SourceBlock	      "BufferedDSP/Other/File Exist"
+      SourceType	      "FileExist"
+      filename		      "c:\\stop.txt"
+      sampleTime	      "3*8192/22050"
+    }
+    Block {
+      BlockType		      Stop
+      Name		      "Stop Simulation"
+      Position		      [185, 162, 220, 198]
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "WaveIn"
+      Ports		      [0, 1, 0, 0, 0]
+      Position		      [55, 69, 110, 121]
+      SourceBlock	      "WinAudio/WaveIn"
+      SourceType	      "WaveIn"
+      sampleRateLit	      22050
+      sampleWidthLit	      16
+      stereo		      off
+      col_major		      "0"
+      buffersize	      "8192"
+      bufTime		      "12"
+    }
+    Line {
+      SrcBlock		      "WaveIn"
+      SrcPort		      1
+      DstBlock		      "Detect, Clip & Save"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "File Exist"
+      SrcPort		      1
+      DstBlock		      "Stop Simulation"
+      DstPort		      1
+    }
+    Annotation {
+      Position		      [155, 239]
+      Text		      "To stop the model in RTW non-external mode,\ncr"
+"eate the file c:\\stop.txt"
+    }
+  }
+}

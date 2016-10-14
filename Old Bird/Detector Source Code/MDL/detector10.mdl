@@ -1,0 +1,443 @@
+Model {
+  Name			  "detector10"
+  Version		  2.20
+  SimParamPage		  RTW
+  SampleTimeColors	  off
+  InvariantConstants	  off
+  WideVectorLines	  off
+  ShowLineWidths	  off
+  StartTime		  "0.0"
+  StopTime		  "10.0"
+  Solver		  ode45
+  RelTol		  "1e-3"
+  AbsTol		  "1e-6"
+  Refine		  "1"
+  MaxStep		  "auto"
+  InitialStep		  "auto"
+  FixedStep		  "auto"
+  MaxOrder		  5
+  OutputOption		  RefineOutputTimes
+  OutputTimes		  "[]"
+  LoadExternalInput	  off
+  ExternalInput		  "[t, u]"
+  SaveTime		  on
+  TimeSaveName		  "tout"
+  SaveState		  off
+  StateSaveName		  "xout"
+  SaveOutput		  on
+  OutputSaveName	  "yout"
+  LoadInitialState	  off
+  InitialState		  "xInitial"
+  SaveFinalState	  off
+  FinalStateName	  "xFinal"
+  LimitMaxRows		  off
+  MaxRows		  "1000"
+  Decimation		  "1"
+  AlgebraicLoopMsg	  warning
+  MinStepSizeMsg	  warning
+  UnconnectedInputMsg	  warning
+  UnconnectedOutputMsg	  warning
+  UnconnectedLineMsg	  warning
+  ConsistencyChecking	  off
+  ZeroCross		  on
+  SimulationMode	  normal
+  RTWSystemTargetFile	  "grt.tlc"
+  RTWInlineParameters	  off
+  RTWPlaceOutputsASAP	  off
+  RTWRetainRTWFile	  off
+  RTWTemplateMakefile	  "c:\\nfc\\matlab\\simulink\\grt_vc_sgm.tmf"
+  RTWMakeCommand	  "make_rtw USER_SRCS=\"winmm.lib\" USER_INCLUDES=\"-I"
+"c:\\nfc\\matlab\\Simulink\\BufferedDSP\\src\\rtw\""
+  RTWGenerateCodeOnly	  off
+  ExtModeMexFile	  "ext_comm"
+  ExtModeBatchMode	  off
+  BlockDefaults {
+    Orientation		    right
+    ForegroundColor	    black
+    BackgroundColor	    white
+    DropShadow		    off
+    NamePlacement	    normal
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    normal
+    FontAngle		    normal
+    ShowName		    on
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    center
+    VerticalAlignment	    middle
+    ForegroundColor	    black
+    BackgroundColor	    white
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    normal
+    FontAngle		    normal
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    normal
+    FontAngle		    normal
+  }
+  System {
+    Name		    "detector10"
+    Location		    [58, 152, 558, 412]
+    Open		    on
+    ToolBar		    on
+    StatusBar		    on
+    ScreenColor		    white
+    PaperOrientation	    landscape
+    PaperPositionMode	    auto
+    PaperType		    usletter
+    PaperUnits		    inches
+    Block {
+      BlockType		      SubSystem
+      Name		      "Detect, Clip & Save"
+      Ports		      [1, 0, 0, 0, 0]
+      Position		      [220, 35, 325, 75]
+      ShowPortLabels	      on
+      MaskType		      "DetectClipNSave"
+      MaskDescription	      "Detects acoustic events in a frequency band, cl"
+"ips, and saves them to disk."
+      MaskHelp		      "Detects acoustic events in a frequency band, cl"
+"ips, and saves them to disk."
+      MaskPromptString	      "Buffer Size:|Lower Frequency (Hz):|Upper Freque"
+"ncy (Hz):|Threshold:|Number of Channels:|Column major channel order:|Sample R"
+"ate (Hz):"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit"
+      MaskTunableValueString  "on,on,on,on,on,on,on"
+      MaskVariables	      "buffersize=@1;f0=@2;f1=@3;threshold=@4;numChann"
+"els=@5;col_major=@6;fs=@7;"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      none
+      MaskIconUnits	      autoscale
+      MaskValueString	      "8192|2500|5000|1.8|1|0|22050"
+      System {
+	Name			"Detect, Clip & Save"
+	Location		[-36, 156, 768, 430]
+	Open			off
+	ToolBar			off
+	StatusBar		off
+	ScreenColor		white
+	PaperOrientation	landscape
+	PaperPositionMode	auto
+	PaperType		usletter
+	PaperUnits		inches
+	Block {
+	  BlockType		  Inport
+	  Name			  "Samples"
+	  Position		  [35, 90, 55, 110]
+	  Port			  "1"
+	  PortWidth		  "buffersize * numChannels"
+	  SampleTime		  "-1"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Detector"
+	  Ports			  [1, 0, 0, 0, 0]
+	  Position		  [230, 69, 390, 131]
+	  ShowPortLabels	  on
+	  MaskType		  "Detector"
+	  MaskDescription	  "Examines band-limited energy for events."
+	  MaskPromptString	  "Buffer Size:|Lower Frequency (Hz):|Upper Fr"
+"equency (Hz):|Filter Length:|Threshold:|Number of Channels:|Column major chan"
+"nel order:|Sample Rate:"
+	  MaskStyleString	  "edit,edit,edit,edit,edit,edit,edit,edit"
+	  MaskTunableValueString  "on,on,on,on,on,on,on,on"
+	  MaskVariables		  "buffersize=@1;f0=@2;f1=@3;filterLength=@4;t"
+"hreshold=@5;numChannels=@6;col_major=@7;fs=@8;"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  none
+	  MaskIconUnits		  autoscale
+	  MaskValueString	  "buffersize|f0|f1|100|threshold|1|col_major|"
+"fs"
+	  System {
+	    Name		    "Detector"
+	    Location		    [-172, 131, 632, 477]
+	    Open		    off
+	    ToolBar		    off
+	    StatusBar		    off
+	    ScreenColor		    white
+	    PaperOrientation	    landscape
+	    PaperPositionMode	    auto
+	    PaperType		    usletter
+	    PaperUnits		    inches
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Samples"
+	      Position		      [20, 130, 40, 150]
+	      Port		      "1"
+	      PortWidth		      "buffersize *numChannels"
+	      SampleTime	      "-1"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Delay"
+	      Ports		      [1, 1, 0, 0, 0]
+	      Position		      [240, 128, 325, 152]
+	      SourceBlock	      "BufferedDSP/Memory/Delay"
+	      SourceType	      "Delay"
+	      buffersize	      "buffersize"
+	      delay		      "7179+0.06*fs"
+	      numChannels	      "1"
+	      col_major		      "1"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "FIR Filter"
+	      Ports		      [1, 1, 0, 0, 0]
+	      Position		      [80, 118, 155, 162]
+	      SourceBlock	      "BufferedDSP/Filter/Row Major/FIR Filter"
+	      SourceType	      "OverlapSave"
+	      input_width	      "buffersize"
+	      nfft_in		      "2*buffersize"
+	      h			      "firls(filterLength-1,[0 f0-100 f0 f1 f1"
+"+100 fs/2]/(fs/2),[0,0,1,1,0,0])"
+	      numChannels	      "numChannels"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Integrate"
+	      Ports		      [1, 1, 0, 0, 0]
+	      Position		      [365, 122, 445, 158]
+	      SourceBlock	      "BufferedDSP/Filter/Integrate"
+	      SourceType	      "Integrate"
+	      buffersize	      "buffersize"
+	      integration_time	      "round(.050*fs)"
+	      normalize		      on
+	      initial_value	      "0"
+	      numChannels	      "numChannels"
+	      col_major		      "col_major"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Long term average"
+	      Ports		      [1, 1, 0, 0, 0]
+	      Position		      [505, 124, 610, 156]
+	      ShowPortLabels	      on
+	      System {
+		Name			"Long term average"
+		Location		[203, 331, 569, 538]
+		Open			off
+		ToolBar			off
+		StatusBar		off
+		ScreenColor		white
+		PaperOrientation	landscape
+		PaperPositionMode	auto
+		PaperType		usletter
+		PaperUnits		inches
+		Block {
+		  BlockType		  Inport
+		  Name			  "Samples"
+		  Position		  [30, 88, 60, 102]
+		  Port			  "1"
+		  PortWidth		  "-1"
+		  SampleTime		  "-1"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Buffer"
+		  Ports			  [1, 1, 0, 0, 0]
+		  Position		  [130, 74, 175, 116]
+		  SourceBlock		  "dspbuff/Buffer"
+		  SourceType		  "Buffer"
+		  N			  "round(3600/(buffersize/fs))"
+		  V			  "0"
+		  Ts			  "buffersize/fs"
+		  ic			  "0"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain"
+		  Position		  [250, 79, 280, 111]
+		  ShowName		  off
+		  Gain			  "1/(buffersize*round(3600/(buffersiz"
+"e/fs)))"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum2"
+		  Ports			  [1, 1, 0, 0, 0]
+		  Position		  [85, 79, 115, 111]
+		  ShowName		  off
+		  Inputs		  "1"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum3"
+		  Ports			  [1, 1, 0, 0, 0]
+		  Position		  [195, 79, 225, 111]
+		  ShowName		  off
+		  Inputs		  "1"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Average"
+		  Position		  [305, 88, 335, 102]
+		  Port			  "1"
+		  OutputWhenDisabled	  held
+		  InitialOutput		  "[]"
+		}
+		Line {
+		  SrcBlock		  "Sum2"
+		  SrcPort		  1
+		  DstBlock		  "Buffer"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Buffer"
+		  SrcPort		  1
+		  DstBlock		  "Sum3"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Sum3"
+		  SrcPort		  1
+		  DstBlock		  "Gain"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Gain"
+		  SrcPort		  1
+		  DstBlock		  "Average"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Samples"
+		  SrcPort		  1
+		  DstBlock		  "Sum2"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "Squared\nMagnitude"
+	      Ports		      [1, 1, 0, 0, 0]
+	      Position		      [180, 124, 210, 156]
+	      ShowName		      off
+	      Operator		      square
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "To Log File"
+	      Ports		      [1, 0, 0, 0, 0]
+	      Position		      [680, 124, 765, 156]
+	      SourceBlock	      "BufferedDSP/Other/To Log File"
+	      SourceType	      "To Log File"
+	      sample_time	      "60"
+	      input_width	      "1"
+	      time_stamp_option	      "Local time"
+	      filename		      "c:\\Logfile.txt"
+	    }
+	    Line {
+	      SrcBlock		      "FIR Filter"
+	      SrcPort		      1
+	      DstBlock		      "Squared\nMagnitude"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Samples"
+	      SrcPort		      1
+	      DstBlock		      "FIR Filter"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Long term average"
+	      SrcPort		      1
+	      DstBlock		      "To Log File"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Delay"
+	      SrcPort		      1
+	      DstBlock		      "Integrate"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Integrate"
+	      SrcPort		      1
+	      DstBlock		      "Long term average"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Squared\nMagnitude"
+	      SrcPort		      1
+	      DstBlock		      "Delay"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Select Channel"
+	  Ports			  [1, 1, 0, 0, 0]
+	  Position		  [125, 85, 200, 115]
+	  SourceBlock		  "BufferedDSP/Multichannel/Select Channel"
+	  SourceType		  "SelectChannel"
+	  buffersize		  "buffersize"
+	  selectChannel		  "1"
+	  numChannels		  "numChannels"
+	  col_major		  "col_major"
+	}
+	Line {
+	  SrcBlock		  "Select Channel"
+	  SrcPort		  1
+	  DstBlock		  "Detector"
+	  DstPort		  1
+	}
+	Line {
+	  Labels		  [1, 0]
+	  SrcBlock		  "Samples"
+	  SrcPort		  1
+	  DstBlock		  "Select Channel"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "File Exist"
+      Ports		      [0, 1, 0, 0, 0]
+      Position		      [155, 124, 205, 156]
+      SourceBlock	      "BufferedDSP/Other/File Exist"
+      SourceType	      "FileExist"
+      filename		      "c:\\stop.txt"
+      sampleTime	      "3*8192/22050"
+    }
+    Block {
+      BlockType		      Stop
+      Name		      "Stop Simulation"
+      Position		      [265, 122, 300, 158]
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "WaveIn"
+      Ports		      [0, 1, 0, 0, 0]
+      Position		      [135, 29, 190, 81]
+      SourceBlock	      "WinAudio/WaveIn"
+      SourceType	      "WaveIn"
+      sampleRateLit	      22050
+      sampleWidthLit	      16
+      stereo		      off
+      col_major		      "0"
+      buffersize	      "8192"
+      bufTime		      "12"
+    }
+    Line {
+      SrcBlock		      "WaveIn"
+      SrcPort		      1
+      DstBlock		      "Detect, Clip & Save"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "File Exist"
+      SrcPort		      1
+      DstBlock		      "Stop Simulation"
+      DstPort		      1
+    }
+  }
+}
