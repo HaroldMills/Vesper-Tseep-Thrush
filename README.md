@@ -1,2 +1,23 @@
 # Vesper-Tseep-Thrush
-New versions of the Old Bird Tseep and Thrush detectors for the Vesper project.
+
+This repository contains materials documenting the development of new versions of the [Old Bird Tseep and Thrush](http://oldbird.org/analysis.htm) nocturnal flight call detectors for the [Vesper](https://github.com/HaroldMills/Vesper) project.
+
+The Old Bird Tseep and Thrush detectors were created in the late 1990s, and suffer from the following limitations:
+
+1. They run only on single-channel input sampled at 22050 hertz.
+2. They run only on Windows computers.
+3. They cannot run on more than one input file on the same computer at the same time.
+
+The new detectors overcome all of these limitations.
+
+Furthermore, the old detectors were implemented using [Simulink](https://www.mathworks.com/products/simulink/) and the Real-Time Workshop (now [Simulink Coder](https://www.mathworks.com/products/simulink-coder/)), which are prohibitively expensive for many developers. The new detectors are implemented in Python, which is free, thus eliminating the price barrier for developers who might want to improve the new detectors or adapt them for new applications.
+
+The development of the new detectors required a careful examination of the old ones to determine both the detection algorithm and the particular sets of algorithm parameter values employed. Unfortunately, this examination was complicated by the fact that the precise source code from which the old detectors were created is not available. Source code very similar to that code is available, however, implementing the same algorithm but with some differences in parameter values. Through a combination of inspection of the available source code, consultations with Bill Evans, who created the old detectors and retains some memory of the parameter values he chose for them, extraction of filter coefficients from the old detector executables, and tests of the old and new detectors on carefully designed synthetic inputs, we were able to identify the parameter values employed by the old detectors.
+
+This repository contains the Old Bird Tseep and Thrush detectors, as well as the available source code relating to them, in the `Old Bird` directory. The main repository directory contains several Python scripts and iPython notebooks that were used to study the old detectors and build the new ones. A list of some of these files and what they do follows:
+* `extract_old_bird_detector_filter.py` - Extracts the bandpass FIR filter of an old detector executable to a text file.
+* `Old Bird Detector Filter Frequency Response.ipynb` - Plots the frequency response of an extracted old detector filter.
+* `Even Length Least Squares Filter Design.ipynb` - Tests the code that designs FIR filters in the new detectors.
+* `Old Bird Detector Filter Comparison.ipynb` - Compares the frequency response of an extracted old detector filter to that of a filter designed for a new detector.
+* `Old Bird Detector Reimplementation.ipynb` - Demonstrates the processing stages of the new detector.
+* `test_detector.py` - Runs one or more tests that help identify old detector parameter values or compare the old and new detectors.
