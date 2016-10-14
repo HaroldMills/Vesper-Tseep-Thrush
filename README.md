@@ -20,3 +20,5 @@ This repository contains the Old Bird Tseep and Thrush detectors, as well as the
 * `Old Bird Detector Filter Comparison.ipynb` - Compares the frequency response of an extracted old detector filter to that of a filter designed for a new detector.
 * `Old Bird Detector Reimplementation.ipynb` - Demonstrates the processing stages of the new detector.
 * `test_detector.py` - Runs one or more tests that help identify old detector parameter values or compare the old and new detectors.
+
+Many thanks to [MPG Ranch](http://mpgranch.com), [Old Bird](http://oldbird.org), and an anonymous donor for financial support of the Vesper project.
