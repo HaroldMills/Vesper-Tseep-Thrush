@@ -12,8 +12,19 @@ import numpy as np
 from bunch import Bunch
 import clip_utils
 import new_detector
+import old_bird_detector_redux
 import old_detector
 
+
+_DETECTOR_MODULES = {
+    'Old': old_detector,
+    'New': new_detector,
+    'Redux': old_bird_detector_redux
+}
+
+# _DETECTOR_VERSIONS = ('Old', 'New')
+_DETECTOR_VERSIONS = ('Old', 'Redux')
+# _DETECTOR_VERSIONS = ('New', 'Redux')
 
 _SAMPLE_RATE = 22050
 
@@ -114,7 +125,7 @@ def main():
     
     # _run_short_noise_burst_test(detector_info)
     
-    _run_clip_duration_extrema_tests(detector_info)
+    # _run_clip_duration_extrema_tests(detector_info)
     
     # _find_just_detectable_impulse_amplitude(detector_info)
     
@@ -130,13 +141,13 @@ def main():
     
     # _estimate_threshold(detector_info)
     
-    # _compare_detectors_on_impulses(detector_info)
+    # _compare_detectors_on_impulses(_DETECTOR_VERSIONS, detector_info)
     
-    # _compare_detectors_on_noise_bursts(detector_info)
+    # _compare_detectors_on_noise_bursts(_DETECTOR_VERSIONS, detector_info)
 
-    # _compare_detectors_on_tones(detector_info)
+    # _compare_detectors_on_tones(_DETECTOR_VERSIONS, detector_info)
     
-    # _compare_detectors_on_chirps(detector_info)
+    _compare_detectors_on_chirps(_DETECTOR_VERSIONS, detector_info)
         
     
 def _run_clip_duration_extrema_tests(detector_info):
@@ -574,7 +585,7 @@ def _estimate_threshold_aux(detector_info):
     return threshold
     
     
-def _compare_detectors_on_impulses(detector_info):
+def _compare_detectors_on_impulses(detector_versions, detector_info):
     
     num_impulses = 100
     indices = np.arange(num_impulses)
@@ -592,16 +603,25 @@ def _compare_detectors_on_impulses(detector_info):
     samples = _create_background_noise(s)
     _add_impulses(samples, s)
     
+    _compare_detectors(detector_versions, detector_info, samples)
+    
+    
+def _compare_detectors(detector_versions, detector_info, samples):
+    
+    name_a, name_b = detector_versions
+    detector_a = _DETECTOR_MODULES[name_a]
+    detector_b = _DETECTOR_MODULES[name_b]
+    
     print()
     
-    print('running old detector...')
-    old_clips = old_detector.detect(samples, detector_info)
+    print('running detector version "{}"...'.format(name_a))
+    clips_a = detector_a.detect(samples, detector_info)
     
-    print('running new detector...')
-    new_clips = new_detector.detect(samples, detector_info)
+    print('running detector version "{}"...'.format(name_b))
+    clips_b = detector_b.detect(samples, detector_info)
     
     print('matching clips...')
-    clip_matches = clip_utils.match_clips(old_clips, new_clips)
+    clip_matches = clip_utils.match_clips(clips_a, clips_b)
     
     for i, match in enumerate(clip_matches):
         stats = _compute_match_statistics(match)
@@ -627,7 +647,7 @@ def _compute_match_statistics_aux(old, new):
     return (start_diff, end_diff, length_diff)
 
 
-def _compare_detectors_on_noise_bursts(detector_info):
+def _compare_detectors_on_noise_bursts(detector_versions, detector_info):
     
     num_amplitudes = 10
     amplitudes = 1000 + 2000 * (np.arange(num_amplitudes) + 1.) / num_amplitudes
@@ -655,25 +675,14 @@ def _compare_detectors_on_noise_bursts(detector_info):
         samples = _create_background_noise(s)
         _add_noise_bursts(samples, s)
         
-        print('running old detector...')
-        old_clips = old_detector.detect(samples, detector_info)
-        
-        print('running new detector...')
-        new_clips = new_detector.detect(samples, detector_info)
-        
-        print('matching clips...')
-        clip_matches = clip_utils.match_clips(old_clips, new_clips)
-        
-        for i, match in enumerate(clip_matches):
-            stats = _compute_match_statistics(match)
-            print(i, match, stats)
+        _compare_detectors(detector_versions, detector_info, samples)
 
 
 def _ramp(n):
     return (np.arange(n) + 1.) / n
 
 
-def _compare_detectors_on_tones(detector_info):
+def _compare_detectors_on_tones(detector_versions, detector_info):
     
     num_amplitudes = 10
     amplitudes = 3000 * _ramp(num_amplitudes)
@@ -710,21 +719,10 @@ def _compare_detectors_on_tones(detector_info):
             samples = _create_background_noise(s)
             _add_tones(samples, s)
             
-            print('running old detector...')
-            old_clips = old_detector.detect(samples, detector_info)
-            
-            print('running new detector...')
-            new_clips = new_detector.detect(samples, detector_info)
-            
-            print('matching clips...')
-            clip_matches = clip_utils.match_clips(old_clips, new_clips)
-            
-            for i, match in enumerate(clip_matches):
-                stats = _compute_match_statistics(match)
-                print(i, match, stats)
+            _compare_detectors(detector_versions, detector_info, samples)
 
 
-def _compare_detectors_on_chirps(detector_info):
+def _compare_detectors_on_chirps(detector_versions, detector_info):
     
     num_amplitudes = 10
     amplitudes = 3000 * _ramp(num_amplitudes)
@@ -765,18 +763,7 @@ def _compare_detectors_on_chirps(detector_info):
             samples = _create_background_noise(s)
             _add_chirps(samples, s)
             
-            print('running old detector...')
-            old_clips = old_detector.detect(samples, detector_info)
-            
-            print('running new detector...')
-            new_clips = new_detector.detect(samples, detector_info)
-            
-            print('matching clips...')
-            clip_matches = clip_utils.match_clips(old_clips, new_clips)
-            
-            for i, match in enumerate(clip_matches):
-                stats = _compute_match_statistics(match)
-                print(i, match, stats)
+            _compare_detectors(detector_versions, detector_info, samples)
 
 
 def _create_background_noise(s):

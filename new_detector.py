@@ -95,7 +95,7 @@ def _get_threshold_crossings(x, settings):
     h = dsp_utils.firls(s.filter_length, bands, desired)
     
     # Filter.
-    x = signal.fftconvolve(x, h)
+    x = signal.fftconvolve(x, h, mode='valid')
     
     # Take magnitude squared.
     x = x * x
@@ -125,9 +125,10 @@ def _get_threshold_crossings(x, settings):
     
     # Find indices of outward-going threshold crossing events.
     # The offset that is added to each event index compensates for the
-    # toffsets that are effectively subtracted by the integration time
-    # difference, power ratio, and rf difference computations above.
-    offset = integration_time + delay + 1
+    # latencies of the filter, integration, delay/ratio, and difference
+    # operations. We compute an offset of one more than we would otherwise
+    # to improve agreement with the original Old Bird detector.
+    offset = (s.filter_length - 1) + (integration_time - 1) + delay + 2
     rises = np.where(rf == 1)[0] + offset
     falls = np.where(rf == -2)[0] + offset
     
