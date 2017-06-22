@@ -6,7 +6,7 @@ import unittest
 import clip_utils
 
 
-class AmplitudeAxisTests(unittest.TestCase):
+class ClipUtilsTests(unittest.TestCase):
 
 
     def test_match_clips(self):
