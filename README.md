@@ -21,4 +21,6 @@ This repository contains the Old Bird Tseep and Thrush detectors, as well as the
 * `Old Bird Detector Reimplementation.ipynb` - Demonstrates the processing stages of the new detector.
 * `test_detector.py` - Runs one or more tests that help identify old detector parameter values or compare the old and new detectors.
 
+There are two new versions of the Old Bird detectors in this repository. One, in module `new_detector`, processes an input signal in one chunk. The other, in module `old_bird_detector_redux`, processes an input signal in multiple chunks of a limited size. The latter version also fixes some bugs present in the portion of the former version that finds transients from a sequence of threshold crossings, and should be preferred for actual use.
+
 Many thanks to [MPG Ranch](http://mpgranch.com), [Old Bird](http://oldbird.org), and an anonymous donor for financial support of the Vesper project.
