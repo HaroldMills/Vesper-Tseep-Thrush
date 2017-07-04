@@ -52,7 +52,10 @@ def detect(samples, settings):
 def _append_sentinel(samples, sample_rate):
     
     """
-    Appends a sentinel pulse to the end of the specified samples.
+    Appends a sentinel noise burst to the end of the specified samples.
+    
+    Assumes that the first second of the input samples are background noise,
+    and creates background noise for the sentinel by repeating that noise.
     
     The `_gather_clips` function knows that detection has finished when
     the detector produces a clip whose index range intersects that of the
@@ -60,16 +63,32 @@ def _append_sentinel(samples, sample_rate):
     always detect the sentinel pulse and produce such a clip.
     """
     
-    sentinel_duration = 2
+    # We start the sentinel with 30 seconds of background noise to ensure
+    # that the sentinel is not ignored due to detector clip suppression.
+    
+    sentinel_duration = 32
+    burst_time = 30
     burst_duration = .01
     burst_amplitude = 10000
     
-    length = int(round(sentinel_duration * sample_rate))
-    sentinel = samples[:length]
+    sentinel_length = int(round(sentinel_duration * sample_rate))
+    sentinel = np.zeros(sentinel_length)
     
+    noise_length = int(round(sample_rate))
+    noise = samples[:noise_length]
+    
+    # Copy noise
+    start_index = 0
+    while start_index < sentinel_length:
+        length = min(noise_length, sentinel_length - start_index)
+        sentinel[start_index:start_index + length] = noise[:length]
+        start_index += length
+        
+    start_index = int(round(burst_time * sample_rate))
     length = int(round(burst_duration * sample_rate))
-    factor = burst_amplitude / np.max(np.abs(sentinel[:length]))
-    sentinel[:length] *= factor
+    end_index = start_index + length
+    factor = burst_amplitude / np.max(np.abs(sentinel[start_index:end_index]))
+    sentinel[start_index:end_index] *= factor
     
     return np.concatenate((samples, sentinel))
 
