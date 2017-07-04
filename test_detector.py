@@ -133,6 +133,8 @@ def main():
     
     # _find_approximate_integration_time(detector_info)
     
+    _find_clip_suppressor_parameter_values(detector_info)
+    
     # _run_delay_test(detector_info)
     
     # _run_passband_test(detector_info)
@@ -147,7 +149,7 @@ def main():
 
     # _compare_detectors_on_tones(_DETECTOR_VERSIONS, detector_info)
     
-    _compare_detectors_on_chirps(_DETECTOR_VERSIONS, detector_info)
+    # _compare_detectors_on_chirps(_DETECTOR_VERSIONS, detector_info)
         
     
 def _run_clip_duration_extrema_tests(detector_info):
@@ -381,6 +383,66 @@ def _get_clip_length_for_integration_time_impulses(detector_info, separation):
     # return new_detector.detect(samples, detector_info)
 
 
+def _find_clip_suppressor_parameter_values(detector_info):
+    
+    print('finding clip suppressor parameter values...')
+    
+    print('measuring count threshold...')
+    threshold = _find_clip_suppressor_count_threshold(detector_info)
+    print('count threshold is {}'.format(threshold))
+    
+    print('measuring period...')
+    period = _find_clip_suppressor_period(detector_info, threshold)
+    print('period is {}'.format(period))
+    
+    
+def _find_clip_suppressor_count_threshold(detector_info):
+    
+    num_impulses = 50
+    separation = .5
+    
+    s = Bunch(
+        sample_rate=_SAMPLE_RATE,
+        duration=10 + (num_impulses - 1) * separation,
+        background_noise_amplitude=100,
+        impulse_times=5 + np.arange(num_impulses) * separation,
+        impulse_amplitudes=10000
+    )
+
+    np.random.seed(0)
+    samples = _create_background_noise(s)
+    _add_impulses(samples, s)
+    
+    clips = old_detector.detect(samples, detector_info)
+    
+    return len(clips) + 1
+
+
+def _find_clip_suppressor_period(detector_info, threshold):
+    
+    for period in range(threshold, 3 * threshold):
+        
+        num_impulses = threshold
+        separation = (period - .5) / (threshold - 1)
+    
+        s = Bunch(
+            sample_rate=_SAMPLE_RATE,
+            duration=10 + (num_impulses - 1) * separation,
+            background_noise_amplitude=100,
+            impulse_times=5 + np.arange(num_impulses) * separation,
+            impulse_amplitudes=10000
+        )
+    
+        np.random.seed(0)
+        samples = _create_background_noise(s)
+        _add_impulses(samples, s)
+        
+        clips = old_detector.detect(samples, detector_info)
+        
+        if len(clips) == threshold:
+            return period - 1
+            
+    
 # def _run_integration_time_test(detector_info):
 #     
 #     # For this test the signal is a series of impulses separated by
