@@ -133,7 +133,7 @@ def main():
     
     # _find_approximate_integration_time(detector_info)
     
-    _find_clip_suppressor_parameter_values(detector_info)
+    # _find_clip_suppressor_parameter_values(detector_info)
     
     # _run_delay_test(detector_info)
     
@@ -142,6 +142,8 @@ def main():
     # _run_filter_length_test(detector_info)
     
     # _estimate_threshold(detector_info)
+    
+    _estimate_threshold_2(detector_info)
     
     # _compare_detectors_on_impulses(_DETECTOR_VERSIONS, detector_info)
     
@@ -646,6 +648,46 @@ def _estimate_threshold_aux(detector_info):
     
     return threshold
     
+    
+def _estimate_threshold_2(detector_info):
+    
+    s = Bunch(
+        sample_rate=_SAMPLE_RATE,
+        duration=10,
+        background_noise_amplitude=100,
+        impulse_time=5
+    )
+
+    samples = _create_background_noise(s)
+    amplitude = _find_just_detectable_impulse_amplitude_aux(
+        detector_info, samples, s)
+    
+    impulse_index = _round(s.impulse_time * s.sample_rate)
+    samples[impulse_index] = amplitude
+    
+    low = 1.01
+    high = 5
+    
+    # Loop invariant: threshold is in (low, high].
+    
+    while high - low > .01:
+        
+        print('threshold is in ({}, {}]...'.format(low, high))
+        
+        mid = (low + high) / 2
+        
+        detector_info.threshold = mid
+        
+        clips = new_detector.detect(samples, detector_info)
+        
+        if len(clips) == 0:
+            high = mid
+            
+        else:
+            low = mid
+            
+    print('threshold estimate:', high)
+
     
 def _compare_detectors_on_impulses(detector_versions, detector_info):
     
