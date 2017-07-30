@@ -251,7 +251,7 @@ class _ThresholdCrossingMarker(_SignalProcessor):
         y[x > self._threshold] = 1
         y[x < 1. / self._threshold] = -2
         
-        # Take differences to mark where the input crosses thr threshold
+        # Take differences to mark where the input crosses the threshold
         # and its inverse. The four types of crossing will be marked as
         # follows:
         #
