@@ -1,6 +1,6 @@
 # Vesper-Tseep-Thrush
 
-This repository contains materials documenting the development of new versions of the [Old Bird Tseep and Thrush](http://oldbird.org/analysis.htm) nocturnal flight call detectors for the [Vesper](https://github.com/HaroldMills/Vesper) project.
+This repository contains materials documenting the development of new versions of the [Old Bird Tseep and Thrush](http://oldbird.org/analysis.htm) nocturnal flight call detectors for the [Vesper](https://github.com/HaroldMills/Vesper) project. While the new detectors were initially developed here, in late June, 2017 they were transferred to the [Vesper repository](https://github.com/HaroldMills/Vesper), where their development has continued. This repository will remain, but for the latest detector code please see [here](https://github.com/HaroldMills/Vesper/tree/master/vesper/old_bird).
 
 The Tseep and Thrush detectors were created in the late 1990s by Steve Mitchell and Bill Evans for Old Bird, Inc. They have several limitations that will be overcome by the new detectors:
 
