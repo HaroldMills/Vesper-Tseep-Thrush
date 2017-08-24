@@ -5,6 +5,7 @@ of one of the old detectors to that of its reimplementation.
 """
 
 
+import math
 import sys
 
 import numpy as np
@@ -14,6 +15,7 @@ import clip_utils
 import new_detector
 import old_bird_detector_redux
 import old_detector
+import sound_file_utils
 
 
 _DETECTOR_MODULES = {
@@ -135,6 +137,8 @@ def main():
     
     # _find_clip_suppressor_parameter_values(detector_info)
     
+    _create_impulse_train_sound_files(detector_info)
+    
     # _run_delay_test(detector_info)
     
     # _run_passband_test(detector_info)
@@ -143,7 +147,7 @@ def main():
     
     # _estimate_threshold(detector_info)
     
-    _estimate_threshold_2(detector_info)
+    # _estimate_threshold_2(detector_info)
     
     # _compare_detectors_on_impulses(_DETECTOR_VERSIONS, detector_info)
     
@@ -398,6 +402,33 @@ def _find_clip_suppressor_parameter_values(detector_info):
     print('period is {}'.format(period))
     
     
+def _create_impulse_train_sound_files(detector_info):
+     
+    duration = 120
+    offset = 10
+    separations = [.1, .12, .14, .16, .18, .2, .22, .24, .26, .3]
+     
+    for i, separation in enumerate(separations):
+         
+        span = duration - 2 * offset
+        num_impulses = int(math.floor(span / separation)) + 1
+         
+        s = Bunch(
+            sample_rate=_SAMPLE_RATE,
+            duration=duration,
+            background_noise_amplitude=100,
+            impulse_times=offset + np.arange(num_impulses) * separation,
+            impulse_amplitudes=10000
+        )
+         
+        np.random.seed(0)
+        samples = _create_background_noise(s)
+        _add_impulses(samples, s)
+        
+        file_name = 'Test_201707{:02d}_210000.wav'.format(i + 1)
+        sound_file_utils.write_sound_file(file_name, samples, _SAMPLE_RATE)
+        
+        
 def _find_clip_suppressor_count_threshold(detector_info):
     
     num_impulses = 50

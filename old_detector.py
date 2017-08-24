@@ -6,19 +6,18 @@ import os
 import re
 import subprocess
 import time
-import wave
 
 import numpy as np
 
 import numpy_utils
 import os_utils
+import sound_file_utils
 
 
 _INPUT_DIR_PATH = r'C:\My Recordings'
 _INPUT_FILE_PATH = os.path.join(_INPUT_DIR_PATH, 'Soundfile.wav')
 _OUTPUT_DIR_PATH = r'C:\temp\calls'
 _STOP_FILE_PATH = r'C:\stop.txt'
-_WAVE_SAMPLE_DTYPE = np.dtype('<i2')
 
 _MIN_CLIP_FILE_PROCESSING_DELAY = 1
 
@@ -44,7 +43,7 @@ def detect(samples, settings):
     sample_rate = settings.sample_rate
     length = len(samples)
     samples = _append_sentinel(samples, sample_rate)
-    _write_input_file(samples, sample_rate)
+    sound_file_utils.write_sound_file(_INPUT_FILE_PATH, samples, sample_rate)
     clips = _run_detector(settings.detector_name, samples, length)
     return clips
     
@@ -93,26 +92,6 @@ def _append_sentinel(samples, sample_rate):
     return np.concatenate((samples, sentinel))
 
 
-def _write_input_file(samples, sample_rate):
-    
-    samples = np.array(samples, dtype=_WAVE_SAMPLE_DTYPE)
-    
-    with wave.open(_INPUT_FILE_PATH, 'wb') as writer:
-        
-        num_channels = 1
-        sample_size = 2
-        sample_rate = int(round(sample_rate))
-        length = 0
-        compression_type = 'NONE'
-        compression_name = 'not compressed'
-        
-        writer.setparams((
-            num_channels, sample_size, sample_rate, length,
-            compression_type, compression_name))
-
-        writer.writeframes(samples.tostring())
-        
-        
 def _run_detector(detector_name, samples, sentinel_start_index):
     
     clip_lists = []
@@ -183,7 +162,7 @@ def _gather_clips(detector_name, samples, sentinel_start_index):
         
         # print('processing clip file "{}"'.format(file_path))
         
-        clip_samples = _read_clip_file(file_path)
+        clip_samples = sound_file_utils.read_sound_file(file_path)
         
         start_indices = numpy_utils.find(clip_samples, samples, 1)
         
@@ -208,13 +187,3 @@ def _gather_clips(detector_name, samples, sentinel_start_index):
         os_utils.delete_file(file_path)
 
     return (clips, found_sentinel)
-
-
-def _read_clip_file(file_path):
-    
-    with wave.open(file_path, 'rb') as reader:
-        
-        length = reader.getparams().nframes
-        string = reader.readframes(length)
-        samples = np.frombuffer(string, dtype=_WAVE_SAMPLE_DTYPE)
-        return samples
