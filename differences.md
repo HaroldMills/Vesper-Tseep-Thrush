@@ -1,0 +1,3 @@
+# Differences between the old and new detectors.
+
+Coming soon...
