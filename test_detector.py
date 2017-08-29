@@ -12,7 +12,7 @@ import numpy as np
 
 from bunch import Bunch
 import clip_utils
-import new_detector
+import new_detector_0_0
 import new_detector_1_1
 import old_detector
 import sound_file_utils
@@ -20,7 +20,7 @@ import sound_file_utils
 
 _DETECTOR_MODULES = {
     'Old': old_detector,
-    'New': new_detector,
+    'New 0.0': new_detector_0_0,
     'New 1.1': new_detector_1_1
 }
 
