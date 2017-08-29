@@ -13,7 +13,7 @@ import numpy as np
 from bunch import Bunch
 import clip_utils
 import new_detector
-import old_bird_detector_redux
+import new_detector_1_1
 import old_detector
 import sound_file_utils
 
@@ -21,12 +21,10 @@ import sound_file_utils
 _DETECTOR_MODULES = {
     'Old': old_detector,
     'New': new_detector,
-    'Redux': old_bird_detector_redux
+    'New 1.1': new_detector_1_1
 }
 
-# _DETECTOR_VERSIONS = ('Old', 'New')
-_DETECTOR_VERSIONS = ('Old', 'Redux')
-# _DETECTOR_VERSIONS = ('New', 'Redux')
+_DETECTOR_VERSIONS = ('Old', 'New 1.1')
 
 _SAMPLE_RATE = 22050
 
@@ -137,7 +135,7 @@ def main():
     
     # _find_clip_suppressor_parameter_values(detector_info)
     
-    _create_impulse_train_sound_files(detector_info)
+    # _create_impulse_train_sound_files(detector_info)
     
     # _run_delay_test(detector_info)
     
@@ -149,7 +147,7 @@ def main():
     
     # _estimate_threshold_2(detector_info)
     
-    # _compare_detectors_on_impulses(_DETECTOR_VERSIONS, detector_info)
+    _compare_detectors_on_impulses(_DETECTOR_VERSIONS, detector_info)
     
     # _compare_detectors_on_noise_bursts(_DETECTOR_VERSIONS, detector_info)
 
