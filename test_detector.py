@@ -613,7 +613,7 @@ def _run_filter_length_test(detector_info):
         for i, filter_length in enumerate(filter_lengths):
             s = detector_info
             s.filter_length = filter_length
-            new_clips = new_detector.detect(samples, s)
+            new_clips = new_detector_1_1.detect(samples, s)
             # print('old:', old_clips)
             # print('new:', new_clips)
             results[i, j, 0] = new_clips[0][0] - old_clips[0][0]
@@ -707,7 +707,7 @@ def _estimate_threshold_2(detector_info):
         
         detector_info.threshold = mid
         
-        clips = new_detector.detect(samples, detector_info)
+        clips = new_detector_1_1.detect(samples, detector_info)
         
         if len(clips) == 0:
             high = mid
